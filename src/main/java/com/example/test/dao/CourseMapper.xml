@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test.dao.CourseMapper">
+    <select id="getCourse" resultType="com.example.test.pojo.Course">
+SELECT * FROM middle.course  WHERE courseTime=#{arg[0]}
+    </select>
+    <select id="getAllCourse" resultType="com.example.test.pojo.Course">
+        SELECT * FROM middle.course
+    </select>
+    <select id="courseByTea" resultType="com.example.test.pojo.Course">
+        SELECT * FROM middle.course where teaName=#{arg[0]}
+    </select>
+    <select id="courseByStu" resultType="com.example.test.pojo.Course">
+        SELECT middle.course.courseId,courseName,courseTime,courseAddress,teaName
+        FROM middle.course
+                 INNER JOIN middle.stucourse
+                            ON stucourse.courseId=course.courseId
+        WHERE middle.stucourse.stuId=#{arg[0]}
+    </select>
+    <insert id="addCourse" parameterType="com.example.test.pojo.Course">
+        insert into middle.course (courseName,courseTime,courseAddress,teaName) values (#{courseName},#{courseTime},#{courseAddress},#{teaName});
+    </insert>
+    <update id="updateCourse" parameterType="com.example.test.pojo.Course">
+        UPDATE middle.course SET courseName=#{courseName},teaName=#{teaName},courseTime=#{courseTime} ,courseAddress=#{courseAddress} WHERE courseId=#{courseId}
+    </update>
+    <insert id="selectCourse" >
+        insert into middle.stucourse values (#{arg0},#{arg1});
+    </insert>
+    <delete id="deleteCourse">
+        delete from middle.course where teaName=#{arg[0]}
+    </delete>
+    <delete id="deleteCourseById">
+        delete from middle.course where courseId=#{arg[0]}
+    </delete>
+    <delete id="deleteStuCourse">
+        delete from  middle.stuCourse where stuId=#{arg0} and courseId=#{arg1}
+    </delete>
+    <delete id="deleteStuCourses">
+        delete from  middle.stuCourse where stuId=#{arg[0]}
+    </delete>
+    <update id="updateStuCourse">
+        update middle.stuCourse set stuId=#{arg[0]}, courseId=#{arg[1]} where stuId=#{arg[2]} and courseId=#{arg[3]}
+    </update>
+    <select id="getStuCourse" resultType="com.example.test.pojo.StuCourse">
+        select * from middle.stuCourse
+    </select>
+    <select id="getLastId" resultType="int">
+        SELECT MAX(courseId) FROM middle.course;
+    </select>
+</mapper>

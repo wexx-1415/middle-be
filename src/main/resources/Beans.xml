@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <!--利用构造器注入-->
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="userDao" class="com.example.test.UserDaoImpl" >
+        <property name="sqlSession" ref="sqlSession" />
+    </bean>
+    <bean id="StuServiceImpl" class="com.example.test.service.impl.StuServiceImpl" >
+        <property name="stuMapper" ref="stuMapper"/>
+    </bean>
+    <bean id="StuDao" class="com.example.test.dao.Impl.StuMapperImpl" >
+        <property name="sqlSession" ref="sqlSession" />
+    </bean>
+    <bean id="TeaDao" class="com.example.test.dao.Impl.TeaMapperImpl" >
+        <property name="sqlSession" ref="sqlSession" />
+    </bean>
+    <bean id="CourseDao" class="com.example.test.dao.Impl.CourseMapperImpl" >
+        <property name="sqlSession" ref="sqlSession" />
+    </bean>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/middle?serverTimezone=UTC"/>
+        <property name="username" value="root"/>
+        <property name="password" value="0k9ruGa;*9gA"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--关联Mybatis-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath:com/example/test/dao/*.xml"/>
+    </bean>
+    <bean id="stuMapper" class="com.example.test.dao.Impl.StuMapperImpl">
+    <property name="sqlSession" ref="sqlSession"></property>
+    </bean>
+    <bean id="teaMapper" class="com.example.test.dao.Impl.TeaMapperImpl">
+        <property name="sqlSession" ref="sqlSession"></property>
+    </bean>
+    <!--注册sqlSessionTemplate , 关联sqlSessionFactory-->
+    <context:component-scan base-package="com.example.test.service"/>
+
+</beans>

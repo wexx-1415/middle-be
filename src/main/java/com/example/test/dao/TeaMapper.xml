@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test.dao.TeaMapper">
+    <select id="getTea" resultType="com.example.test.pojo.Tea" parameterType="com.example.test.pojo.Tea">
+        select * from middle.tea where teaName=#{arg1} and teaPwd=#{arg0}
+    </select>
+    <insert id="addUser" parameterType="com.example.test.User">
+        insert into test.users (username,password) values (#{username},#{password})
+    </insert>
+    <delete id="deleteTea">
+        delete from middle.tea where teaName=#{arg[0]};
+    </delete>
+     <select id="getTeas" resultType="com.example.test.pojo.Tea">
+        select * from middle.tea
+    </select>
+    <update id="updateTea">
+        update middle.tea set teaName=#{TeaName},teaPwd=#{teaPwd} where teaId=#{teaId}
+    </update>
+    <insert id="addTea">
+        insert into middle.tea(teaName,teaPwd) values(#{teaName},#{teaPwd})
+    </insert>
+    <select id="getLastTeaId" resultType="int">
+        SELECT MAX(teaId) FROM middle.tea;
+    </select>
+</mapper>

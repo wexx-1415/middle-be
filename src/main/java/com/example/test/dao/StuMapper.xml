@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test.dao.StuMapper">
+    <select id="getStu" resultType="com.example.test.pojo.Stu" parameterType="com.example.test.pojo.Stu">
+        select * from middle.stu where stuName=#{arg1} and stuPwd=#{arg0}
+    </select>
+    <delete id="deleteStu">
+        delete from middle.stu where stuId=#{arg[0]};
+    </delete>
+    <select id="getStus" resultType="com.example.test.pojo.Stu">
+        select * from middle.stu
+    </select>
+    <update id="updateStu" >
+        update middle.stu set stuName=#{stuName},stuPwd=#{stuPwd} where stuId=#{stuId}
+    </update>
+    <insert id="addStu">
+        insert into middle.stu(stuName, stuPwd) values(#{stuName},#{stuPwd})
+    </insert>
+    <select id="getLastStuId" resultType="int">
+        SELECT MAX(stuId) FROM middle.stu;
+    </select>
+</mapper>
